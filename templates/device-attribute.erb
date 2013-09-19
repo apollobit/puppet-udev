@@ -1,0 +1,7 @@
+# Managed by Puppet!
+<% if @comment and not @comment.empty? -%>
+# <%= @comment %>
+<% end -%>
+ACTION == "add", KERNELS == "<%= @device %>", SUBSYSTEMS == "block", \
+  ATTR{<%= @attribute %>} != "<%= @value %>", \
+  ATTR{<%= @attribute %>} = "<%= @value %>"
