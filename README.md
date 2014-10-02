@@ -21,8 +21,7 @@ udev::rule { '10-audio.rules':
 ### Create a rule to set the device queue size
 
 ```Puppet
-udev::device::queue { 'device-queuesize-sda':
-  device    => 'sda',
+udev::device::queue { 'sda':
   queuesize => '0',
 }
 ```
@@ -30,17 +29,15 @@ udev::device::queue { 'device-queuesize-sda':
 ### Remove the rule to set the device queue size
 
 ```Puppet
-udev::device::queue { 'device-queuesize-sda':
+udev::device::queue { 'sda':
   ensure => absent,
-  device => 'sda',
 }
 ```
 
 ### Set the device scheduler for a device
 
 ```Puppet
-udev::device::scheduler { 'device-scheduler-sda':
-  device    => 'sda',
+udev::device::scheduler { 'sda':
   scheduler => 'noop',
 }
 ```

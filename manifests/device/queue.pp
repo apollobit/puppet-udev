@@ -1,14 +1,13 @@
 # queue.pp --- Create file with udev rule to set device queue size
 #
-# Copyright (c) 2013 Stefan Moeding
+# Copyright (c) 2013, 2014 Stefan Moeding
 # All rights reserved.
 #
 # Author:     Stefan Moeding <stm@kill-9.net>
-# Time-stamp: <2013-09-19 17:36:54 stm>
+# Time-stamp: <2014-10-02 22:05:51 stm>
 #
 # Parameters:
 # $ensure     can be set to 'absent' to remove a rule
-# $device     the device to be modified
 # $queuesize  the queue size to set
 #
 # Requires:
@@ -18,21 +17,17 @@
 #
 # Set device 'sda' to queue size 0:
 #
-#   udev::device::queue { 'device-queuesize-sda':
-#     device    => 'sda',
+#   udev::device::queue { 'sda':
 #     queuesize => '0',
 #   }
 #
 #
-define udev::device::queue(
-  $ensure=present,
-  $device,
-  $queuesize)
+define udev::device::queue($ensure = present, $queuesize)
 {
-  udev::device::attribute { "udev-device-queue-${device}":
+  udev::device::attribute { "udev-device-queue-${title}":
     ensure    => $ensure,
-    device    => $device,
+    device    => "${title}",
     attribute => 'device/queue_depth',
-    value     => $queuesize,
+    value     => "${queuesize}",
   }
 }

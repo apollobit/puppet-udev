@@ -1,14 +1,13 @@
 # scheduler.pp --- Create file with udev rule to set device scheduler
 #
-# Copyright (c) 2013 Stefan Moeding
+# Copyright (c) 2013, 2014 Stefan Moeding
 # All rights reserved.
 #
 # Author:     Stefan Moeding <stm@kill-9.net>
-# Time-stamp: <2013-09-19 17:37:00 stm>
+# Time-stamp: <2014-10-02 22:01:45 stm>
 #
 # Parameters:
 # $ensure     can be set to 'absent' to remove a rule
-# $device     the device to be modified
 # $scheduler  the name of the scheduler to use
 #
 # Requires:
@@ -18,21 +17,16 @@
 #
 # Set device 'sda' to 'noop' scheduler:
 #
-#   udev::device::scheduler { 'device-scheduler-sda':
-#     device    => 'sda',
+#   udev::device::scheduler { 'sda':
 #     scheduler => 'noop',
 #   }
 #
 #
-define udev::device::scheduler(
-  $ensure=present,
-  $device,
-  $scheduler)
-{
-  udev::device::attribute { "udev-device-scheduler-${device}":
+define udev::device::scheduler ($ensure = present, $scheduler) {
+  udev::device::attribute { "udev-device-scheduler-${title}":
     ensure    => $ensure,
-    device    => $device,
+    device    => "${title}",
     attribute => 'queue/scheduler',
-    value     => $scheduler,
+    value     => "${scheduler}",
   }
 }
