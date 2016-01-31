@@ -24,15 +24,16 @@
 #
 define udev::device::scheduler ($ensure = present, $scheduler) {
 
-	exec { 'set-scheduler':
-		exec		=> "echo ${scheduler} > /sys/block/${title}/queue/scheduler"
-		before 	=> "udev-device-scheduler-${title}",
-	}
-
   udev::device::attribute { "udev-device-scheduler-${title}":
     ensure    => $ensure,
     device    => "${title}",
     attribute => 'queue/scheduler',
     value     => "${scheduler}",
+		require		=> Exec["set-scheduler"],
   }
+
+	exec { 'set-scheduler':
+		command		=> "/bin/echo ${scheduler} > /sys/block/${title}/queue/scheduler",
+	}
+
 }
